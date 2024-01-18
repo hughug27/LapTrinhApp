@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "496504539729",
+    "project_id": "laptrinhapp-b14d0",
+    "storage_bucket": "laptrinhapp-b14d0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:496504539729:android:b1198d3574235d78594670",
+        "android_client_info": {
+          "package_name": "com.example.laptrinhapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCx1_QqyDH4qBdPISli7skwbfmZMpRthJg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
