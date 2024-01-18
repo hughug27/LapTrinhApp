@@ -3,6 +3,7 @@ package com.example.laptrinhapp;
 import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.StringDef;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.nfc.Tag;
@@ -14,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.laptrinhapp.model.Course;
 import com.example.laptrinhapp.model.Student;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -26,6 +28,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -79,15 +83,18 @@ public class MainActivity extends AppCompatActivity {
     public void get(View view) {
         CollectionReference collectionReference = db.collection("courses");
         collectionReference
-                .whereEqualTo("course_name", "math")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-//                                List<Student> std_list = (List<Student>) document.get("students");
-                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                Course course = new Course(document.get("course_name").toString(), (ArrayList<String>) document.get("students"));
+//                                Log.d(TAG, course.getStudent().toString());
+                                for (String str : course.getStudent()) {
+                                    System.out.println(str);
+                                }
+
                             }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());

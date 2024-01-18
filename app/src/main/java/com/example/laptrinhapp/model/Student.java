@@ -1,5 +1,7 @@
 package com.example.laptrinhapp.model;
 
+import java.lang.reflect.Array;
+
 public class Student extends People {
     private String studentId;
     private String password;
