@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText password;
     private Button button;
 
+    private TextView textView;
 
     private Button getButton;
 
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         id = findViewById(R.id.edit_text_id);
         password = findViewById(R.id.edit_text_password);
         button = findViewById(R.id.button);
+        textView = findViewById(R.id.textView);
 
 
     }
@@ -61,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         String pass_data = password.getText().toString();
 
         Student student1 = new Student("name",id_data,pass_data);
-        TextView textView = findViewById(R.id.textView);
+
         textView.setText(student1.getName()+" "+ student1.getStudentId()+ student1.getPassword());
 
         std_collection_ref.document(student1.getStudentId()).set(student1)
@@ -92,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
                                 Course course = new Course(document.get("course_name").toString(), (ArrayList<String>) document.get("students"));
 //                                Log.d(TAG, course.getStudent().toString());
                                 for (String str : course.getStudent()) {
-                                    System.out.println(str);
+                                    get_std_name(str);
                                 }
 
                             }
@@ -103,5 +105,26 @@ public class MainActivity extends AppCompatActivity {
                 });
 
 
+    }
+
+    public void get_std_name(String id){
+        db.collection("students").document(id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+
+                        Student student = new Student(document.get("name").toString(),document.get("studentId").toString(),document.get("password").toString());
+                        textView.setText(student.getName()+" "+ student.getStudentId()+ student.getPassword());
+
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
     }
 }
