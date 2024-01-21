@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.laptrinhapp.Utils.DbManager;
 import com.example.laptrinhapp.Utils.UserManager;
@@ -90,8 +91,8 @@ public class ScanAct extends AppCompatActivity {
 
     ActivityResultLauncher<ScanOptions> barLauncher = registerForActivityResult(new ScanContract(), result->{
         if(result.getContents()!= null){
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Result");
+//            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//            builder.setTitle("Result");
             qrRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -100,22 +101,41 @@ public class ScanAct extends AppCompatActivity {
                         if (document.get("content").toString().equals(result.getContents())){
                             Log.i("TAG"," tc");
                             ScanThanhCong();
-//                            builder.setMessage("Thanh Cong");
+
+                            AlertDialog.Builder builder = new AlertDialog.Builder(ScanAct.this);
+                            builder.setTitle("THANH CONG");
+                            builder.setMessage("Da diem danh mon: " + document_std);
+                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).show();
+
                         }else{
-//                            builder.setMessage("ko Thanh Cong");
                             Log.i("TAG","ko tc");
+
+                            AlertDialog.Builder builder = new AlertDialog.Builder(ScanAct.this);
+                            builder.setTitle("KHONG THANH CONG");
+                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
+
                         }
                     }
                 }
             });
 
-            builder.setMessage("thanh cong");
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            }).show();
+
+//            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    dialog.dismiss();
+//                }
+//            }).show();
         }
     });
 

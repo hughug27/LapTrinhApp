@@ -68,14 +68,14 @@ public class MainActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if (task.isSuccessful()){
                         DocumentSnapshot document = task.getResult();
-//                        Student current_std = new Student(document.get("name"),document.get("studentId"),document.get("password"));
+                        if (document.exists()) {
                             Student current_std = Student.fromDocumentSnapshot(document);
                             UserManager.getInstance().setLoggedInStudent(current_std);
-//                            Log.d(TAG,UserManager.getInstance().getLoggedInStudent());
                             Intent intent = new Intent(MainActivity.this, MainActivity2.class);
                             startActivity(intent);
-                    }else {
-                        Toast.makeText(MainActivity.this, "User khong ton tai", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(MainActivity.this, "User khong ton tai", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
             });
@@ -86,16 +86,14 @@ public class MainActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if (task.isSuccessful()){
                         DocumentSnapshot document = task.getResult();
-//                        Student current_std = new Student(document.get("name"),document.get("studentId"),document.get("password"));
-                        Teacher current_teacher = Teacher.fromDocumentSnapshot(document);
-                        UserManager.getInstance().setLoggedInTeacher(current_teacher);
-                        Log.d(TAG,UserManager.getInstance().getLoggedInTeacher().getName());
-
-                        Intent intent = new Intent(MainActivity.this, TeacherAct0.class);
-                        startActivity(intent);
-
-                    }else {
-                        Toast.makeText(MainActivity.this, "User khong ton tai", Toast.LENGTH_SHORT).show();
+                        if (document.exists()) {
+                            Teacher current_teacher = Teacher.fromDocumentSnapshot(document);
+                            UserManager.getInstance().setLoggedInTeacher(current_teacher);
+                            Intent intent = new Intent(MainActivity.this, TeacherAct0.class);
+                            startActivity(intent);
+                        }else {
+                            Toast.makeText(MainActivity.this, "User khong ton tai", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
             });

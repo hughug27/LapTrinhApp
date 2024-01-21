@@ -8,7 +8,11 @@ public class Student extends People {
     private String studentId;
     private String password;
 
-    public Student(String name, String password,String studentId) {
+    public Student(String name) {
+        super(name);
+    }
+
+    public Student(String name, String password, String studentId) {
         super(name);
         this.password = password;
         this.studentId = studentId;

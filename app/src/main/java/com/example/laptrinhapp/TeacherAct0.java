@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -35,7 +36,7 @@ public class TeacherAct0 extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         textView = findViewById(R.id.textview);
 
-        textView.setText("Xin chao: " + UserManager.getInstance().getLoggedInTeacher().getName());
+        textView.setText(UserManager.getInstance().getLoggedInTeacher().getName());
         getCourses();
 //
 
@@ -63,6 +64,12 @@ public class TeacherAct0 extends AppCompatActivity {
     }
 
     public void themLop(View view) {
+
+    }
+
+    public void QRbutton(View view) {
+        Intent intent = new Intent(this,TeacherActivity.class);
+        this.startActivity(intent);
 
     }
 }

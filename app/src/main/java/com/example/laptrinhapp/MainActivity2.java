@@ -116,4 +116,14 @@ public class MainActivity2 extends AppCompatActivity {
         startActivity(intent);
 
     }
+
+    public void CaNhan(View view) {
+        Intent intent = new Intent(this, MyProfile.class);
+        this.startActivity(intent);
+    }
+
+    public void logOut(View view) {
+        UserManager.getInstance().logout();
+        onBackPressed();
+    }
 }

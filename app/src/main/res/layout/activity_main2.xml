@@ -111,7 +111,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="home"
+                    android:text="Home"
                     android:textSize="19sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -169,6 +169,7 @@
                 android:orientation="vertical">
 
                 <ImageView
+                    android:onClick="logOut"
                     android:layout_marginTop="20dp"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
@@ -178,7 +179,7 @@
                     android:id="@+id/textView4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="home"
+                    android:text="Dang Xuat"
                     android:layout_gravity="center_horizontal"
                     android:textSize="19sp"
                     android:textStyle="bold"/>
@@ -203,6 +204,7 @@
                 android:orientation="vertical">
                 <ImageView
                     android:layout_marginTop="20dp"
+                    android:onClick="CaNhan"
 
                     android:layout_width="80dp"
                     android:layout_height="80dp"
