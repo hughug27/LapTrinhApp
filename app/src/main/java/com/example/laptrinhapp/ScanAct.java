@@ -8,79 +8,103 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.example.laptrinhapp.Utils.DbManager;
 import com.example.laptrinhapp.Utils.UserManager;
-import com.example.laptrinhapp.model.Teacher;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class MainActivity2 extends AppCompatActivity {
-    private TextView main_tv;
-    private TextView textView_Sub;
+public class ScanAct extends AppCompatActivity {
+    String document_std;
     private FirebaseFirestore db = DbManager.getInstance();
-    DocumentReference documentReference = db.collection("qrcode").document("content");
+    ListView listView;
+    CollectionReference coursesRef = db.collection("courses");
+    Query query = coursesRef.whereArrayContains("students", UserManager.getInstance().getLoggedInStudent().getStudentId());
 
-
+    DocumentReference qrRef = db.document("qrcode/content");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
 
-        main_tv = findViewById(R.id.textViewMain);
-        textView_Sub = findViewById(R.id.textViewSub);
-        main_tv.setText(UserManager.getInstance().getLoggedInStudent().getName());
-        textView_Sub.setText(UserManager.getInstance().getLoggedInStudent().getStudentId());
+        super.onCreate(savedInstanceState );
+        setContentView(R.layout.scan_act);
+
+        listView = findViewById(R.id.listViewMain);
+
+        query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<String> data = new ArrayList<>();
+
+                for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                    // Access the data in each document
+                    String documentId = document.getId();
+
+                    String fieldValue = document.getString("name");
+                    data.add(fieldValue);
+                    ArrayAdapter adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.itemview,R.id.itemName, data);
+                    listView.setAdapter(adapter);
+
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            document_std = (String) parent.getItemAtPosition(position);
+                            scan_method();
+                        }
+                    });
+
+
+                }
+            }
+        });
 
 
     }
 
-
-
-    public void qr_scan(View view) {
+    private void scan_method() {
         ScanOptions scanOptions = new ScanOptions();
         scanOptions.setCaptureActivity(CaptureAct.class);
         barLauncher.launch(scanOptions);
     }
 
-    ActivityResultLauncher<ScanOptions> barLauncher = registerForActivityResult(new ScanContract(),result->{
+    ActivityResultLauncher<ScanOptions> barLauncher = registerForActivityResult(new ScanContract(), result->{
         if(result.getContents()!= null){
-            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity2.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Result");
-            documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            qrRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if (task.isSuccessful()){
                         DocumentSnapshot document = task.getResult();
                         if (document.get("content").toString().equals(result.getContents())){
-                            Log.d(TAG," tc");
+                            Log.i("TAG"," tc");
                             ScanThanhCong();
 //                            builder.setMessage("Thanh Cong");
                         }else{
 //                            builder.setMessage("ko Thanh Cong");
-                            Log.d(TAG,"ko tc");
-
+                            Log.i("TAG","ko tc");
                         }
-                    }else {
-                        builder.setMessage("Task ko Thanh Cong");
-                        Log.d(TAG,"ko tc2");
-
                     }
                 }
             });
@@ -99,21 +123,15 @@ public class MainActivity2 extends AppCompatActivity {
         DocumentReference docAttendRef = db.collection("students")
                 .document(UserManager.getInstance().getLoggedInStudent().getStudentId())
                 .collection("attend")
-                .document("B202");
+                .document(document_std);
         Map<String, Object> updates = new HashMap<>();
         updates.put(new java.util.Date().toString(), "1");
-        docAttendRef.update(updates).addOnSuccessListener(aVoid -> {
+        docAttendRef.set(updates, SetOptions.merge()).addOnSuccessListener(aVoid -> {
             // Document successfully updated
             System.out.println("Document updated successfully!");
         }).addOnFailureListener(e -> {
             // Handle errors
             System.out.println("Error updating document: " + e.getMessage());
         });
-    }
-
-    public void qr_scan2(View view) {
-        Intent intent = new Intent(MainActivity2.this, ScanAct.class);
-        startActivity(intent);
-
     }
 }

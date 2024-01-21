@@ -38,6 +38,13 @@ public class CourseViewAdapter extends RecyclerView.Adapter<CourseViewHolder> {
         holder.name.setText("Ten mon hoc: "+courses.get(position).getName());
         holder.id.setText(courses.get(position).getId());
 
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
     }
 
     @Override

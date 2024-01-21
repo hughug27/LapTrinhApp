@@ -8,10 +8,10 @@ public class Student extends People {
     private String studentId;
     private String password;
 
-    public Student(String name, String studentId,String password) {
+    public Student(String name, String password,String studentId) {
         super(name);
-        this.studentId = studentId;
         this.password = password;
+        this.studentId = studentId;
     }
     public static Student fromDocumentSnapshot(DocumentSnapshot document) {
         String name = document.getString("name");
