@@ -1,5 +1,7 @@
 package com.example.laptrinhapp.model;
 
+import com.google.firebase.firestore.DocumentSnapshot;
+
 import java.lang.reflect.Array;
 
 public class Student extends People {
@@ -10,6 +12,13 @@ public class Student extends People {
         super(name);
         this.studentId = studentId;
         this.password = password;
+    }
+    public static Student fromDocumentSnapshot(DocumentSnapshot document) {
+        String name = document.getString("name");
+        String password = document.getString("password");
+        String studentId = document.getString("studentId");
+
+        return new Student(name, password, studentId);
     }
 
     public String getStudentId() {

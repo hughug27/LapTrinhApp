@@ -13,6 +13,19 @@
         android:theme="@style/Theme.LapTrinhApp"
         tools:targetApi="31">
         <activity
+            android:name=".TeacherAct0"
+            android:exported="false" />
+        <activity
+            android:name=".TeacherActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity2"
+            android:exported="false" />
+        <activity
+            android:name=".CaptureAct"
+            android:screenOrientation="portrait"
+            android:theme="@style/zxing_CaptureTheme" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
