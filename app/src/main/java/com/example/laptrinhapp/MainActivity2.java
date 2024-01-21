@@ -126,4 +126,9 @@ public class MainActivity2 extends AppCompatActivity {
         UserManager.getInstance().logout();
         onBackPressed();
     }
+
+    public void history(View view) {
+        Intent intent = new Intent(this, MyHistory.class);
+        this.startActivity(intent);
+    }
 }
