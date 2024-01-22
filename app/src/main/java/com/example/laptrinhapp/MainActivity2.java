@@ -54,9 +54,7 @@ public class MainActivity2 extends AppCompatActivity {
 
 
     public void qr_scan(View view) {
-        ScanOptions scanOptions = new ScanOptions();
-        scanOptions.setCaptureActivity(CaptureAct.class);
-        barLauncher.launch(scanOptions);
+        Toast.makeText(this, "Home :)", Toast.LENGTH_LONG).show();
     }
 
     ActivityResultLauncher<ScanOptions> barLauncher = registerForActivityResult(new ScanContract(),result->{
