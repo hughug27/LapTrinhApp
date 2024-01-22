@@ -135,16 +135,17 @@
                 android:orientation="vertical">
 
                 <ImageView
+                    android:onClick="history"
                     android:layout_marginTop="20dp"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/baseline_list_24" />
+                    android:src="@drawable/baseline_history_24" />
                 <TextView
                     android:id="@+id/textView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Danh Sach"
+                    android:text="Lich su"
                     android:layout_gravity="center_horizontal"
                     android:textSize="19sp"
                     android:textStyle="bold"/>
