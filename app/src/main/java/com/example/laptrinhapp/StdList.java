@@ -53,13 +53,9 @@ public class StdList extends AppCompatActivity {
         getStdInClass();
 //        getStdInfo();
 
-//        studentsList.add(new Student("Nguyen Van Tam"));
-//        studentsList.add(new Student("Tran Minh Chin"));
-//        studentsList.add(new Student("Nguyen Thi Anh"));
-        setRecyclerData();
-
-    }
-    private void setRecyclerData() {
+        studentsList.add(new Student("Nguyen Van Tam"));
+        studentsList.add(new Student("Tran Minh Chin"));
+        studentsList.add(new Student("Nguyen Thi Anh"));
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setAdapter(new StdAdapter(getApplicationContext(),studentsList));
     }
@@ -70,9 +66,9 @@ public class StdList extends AppCompatActivity {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()){
                     DocumentSnapshot documentSnapshot = task.getResult();
-                    arrayList = (ArrayList<String>) documentSnapshot.getData();
+                    arrayList = (ArrayList<String>) documentSnapshot.get("students");
 //                    System.out.println(arrayList);
-                    getStdInfo();
+
                 }
             }
         });
@@ -88,7 +84,7 @@ public class StdList extends AppCompatActivity {
                     System.out.println(studentsList.get(0));
                 }
             });
-            setRecyclerData();
+
         }
 //        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 //        recyclerView.setAdapter(new StdAdapter(getApplicationContext(),studentsList));
